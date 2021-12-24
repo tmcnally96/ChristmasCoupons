@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Babysitting Coupons</title>
+  <link rel="icon" href="https://img.icons8.com/external-wanicon-flat-wanicon/64/000000/external-christmas-gift-box-wanicon-flat-wanicon.png"/>"/>" type="image/icon type">
+
+  <script src="./babysitting.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script type="text/javascript">
+  (function() {
+    emailjs.init("user_wbTmdW5MT5zzzMmLOcCgO");
+    })();
+  </script>
+  
+  <!--Most stuff-->
+  <link rel="stylesheet" href="styles.css" />
+  <!--flatpickr-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@700&family=Short+Stack&display=swap" rel="stylesheet">
+
+</head>
+
+<body onload="retrieveClicks();">
+  <div class="container">
+    <div class="vertical-center">
+
+      <img src="https://i.pinimg.com/originals/12/c4/07/12c4077968b2c84fa633d73543805cd1.gif" alt="Christmas Tree" class="tree">
+      <br>
+      <button id="countdown" class="button" onclick="countDown(); sendMail();">
+        Use Babysitting Coupon
+      </button>
+      <p class= "text" id="count" onload="retrieveClicks();">Coupons...</p>
+      <p class="text">Expires 25/12/2022</p>
+
+      <!--Button exclusively for developer use, to reset the number of coupons-->
+      <!--<button id="developer_clear_button" class="button" onclick="clearStorage()">Clear Storage</button>-->
+
+      <div class="datepicking">
+        <form>
+          <input id="date-content" class="form-control" type="datetime-local" placeholder="Select Datetime" value="No date selected">
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+  <!--Initialise flatpickr-->
+  <script>
+
+    // FLATPICKR 
+    config = {
+    enableTime: true,
+    dateFormat: "Y-m-d H:i",
+    altInput: true,
+    altFormat: "F j, Y (h:S K)"
+    }
+    
+    flatpickr("input[type=datetime-local]", config);
+
+    function getFlatpickrContent(){
+
+      var d = document.getElementById("date-content").value;
+
+      return d;
+
+    }
+
+
+    // EMAILING
+
+    function sendMail(params){
+      
+      var selectedDateTime = getFlatpickrContent();
+
+      var tempParams = {
+        from_name: "Kristel and John",
+        to_name: "Tom",
+        message: selectedDateTime,
+      }
+      // implemented using https://dashboard.emailjs.com/admin/templates/0tdghar
+      // see https://www.youtube.com/watch?v=x7Ewtay0Q78&ab_channel=CodewithVoran  for instructions
+      // service id, template id
+      emailjs.send('service_dsp1lqi', 'template_bc0pnaw', tempParams).then(function(resp){
+        console.log("success", resp.status)
+      })
+
+
+  }
+  </script>
+</body>
+
+</html>
